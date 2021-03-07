@@ -6,14 +6,14 @@ import hashlib
 from pyfingerprint.pyfingerprint import PyFingerprint
 import PIL 
 from PIL import Image,ImageTk
-# import RPi.GPIO as io
+import RPi.GPIO as io
 
 buzzer = 8
 
-# io.setmode(io.BOARD)
-# io.setup(buzzer,io.OUT)
-# io.output(buzzer,io.LOW)
-# io.setwarnings(False)
+io.setmode(io.BOARD)
+io.setup(buzzer,io.OUT)
+io.output(buzzer,io.LOW)
+io.setwarnings(False)
 
 l=[]
 
@@ -21,8 +21,8 @@ root=Tk()
 root.geometry("720x480")
 root.title('Smart Voting Machine')
 
-# img = PhotoImage(file='/home/pi/Documents/smartVotingMachine/icon.png')
-# root.tk.call('wm', 'iconphoto', root._w, img)
+img = PhotoImage(file='/home/pi/Documents/smartVotingMachine/icon.png')
+root.tk.call('wm', 'iconphoto', root._w, img)
 
 def search():
 	
@@ -133,10 +133,10 @@ def fingerprint(uid):
 	
 	if res== None:
 		
-		# io.output(buzzer,io.HIGH)
+		io.output(buzzer,io.HIGH)
 		messagebox.showerror("ERROR", "Bogus Vote") 
 		sleep(5)
-		# io.output(buzzer,io.LOW)
+		io.output(buzzer,io.LOW)
 		return mainWindow()
 	
 	if res[7] != -1:

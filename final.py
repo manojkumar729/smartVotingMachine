@@ -2,18 +2,18 @@ from time import sleep
 from tkinter import*
 from tkinter import messagebox 
 import psycopg2
-import hashlib
-from pyfingerprint.pyfingerprint import PyFingerprint
+# import hashlib
+# from pyfingerprint.pyfingerprint import PyFingerprint
 import PIL 
-from PIL import Image,ImageTk
-import RPi.GPIO as io
+# from PIL import Image,ImageTk
+# import RPi.GPIO as io
 
 buzzer = 8
 
-io.setmode(io.BOARD)
-io.setup(buzzer,io.OUT)
-io.output(buzzer,io.LOW)
-io.setwarnings(False)
+# io.setmode(io.BOARD)
+# io.setup(buzzer,io.OUT)
+# io.output(buzzer,io.LOW)
+# io.setwarnings(False)
 
 l=[]
 
@@ -21,8 +21,8 @@ root=Tk()
 root.geometry("720x480")
 root.title('Smart Voting Machine')
 
-img = PhotoImage(file='/home/pi/Documents/smartVotingMachine/icon.png')
-root.tk.call('wm', 'iconphoto', root._w, img)
+# img = PhotoImage(file='/home/pi/Documents/smartVotingMachine/icon.png')
+# root.tk.call('wm', 'iconphoto', root._w, img)
 
 def search():
 	
@@ -133,10 +133,10 @@ def fingerprint(uid):
 	
 	if res== None:
 		
-		io.output(buzzer,io.HIGH)
+		# io.output(buzzer,io.HIGH)
 		messagebox.showerror("ERROR", "Bogus Vote") 
 		sleep(5)
-		io.output(buzzer,io.LOW)
+		# io.output(buzzer,io.LOW)
 		return mainWindow()
 	
 	if res[7] != -1:
@@ -265,17 +265,34 @@ def admin():
 def adminPanel():
 	l_clear()
 
-	db.execute('SELECT vote_counting')
+	db.execute('SELECT * FROM vote_counting')
+	row = db.fetchall()
+	# row -> individual party details
+	# field[0] - id ,field[1] - partyname, field[2] - candidate name, field[3] - age, field[4] - Gender(0 - Male, 1- Female), field[5] - count
+	final = "Vote Count Status\n\n\n"
 	var = StringVar()
-	var.set(f'{s} - 1\nStalin - 5\nkamal - 6')
-	
+	for field in row:
+		final += f'{field[1]} - {field[2]} - {field[5]}\n\n'
+	row.sort(key = lambda x: x[5],reverse = True) 
+		
+	var.set(final)
 	statusbar = Label(root, textvariable=var, height = 30, width = 200,fg="black", font=50, bd=1, relief=SUNKEN, anchor="center")
 	statusbar.place(relx=0.5,rely = 0.6,anchor = "center")
+	button = Button(root,text = 'View Result',command = lambda :result(row[0],row[1]))
+	button.pack()
+	root.update_idletasks()
+	l.extend([statusbar,button])
 
-	# var.set('Initialization Error!')
-	# root.update_idletasks()
 
-		
+def result(first,second):
+	l_clear()
+	final = "Polling Results\n\n\n"
+	var = StringVar()
+	final += f'Winning Party - {first[1]}\n\nOpposition Party - {second[1]}\n\n'
+	var.set(final)
+	statusbar = Label(root, textvariable=var, height = 30, width = 200,fg="black", font=50, bd=1, relief=SUNKEN, anchor="center")
+	statusbar.place(relx=0.5,rely = 0.6,anchor = "center")
+	root.update_idletasks()
 
 # Initializing and db_connecting to the database
 

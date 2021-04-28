@@ -16,22 +16,22 @@
 -- 	)
 -- );
 
-CREATE TABLE vote_counting(
-	id SERIAL PRIMARY KEY,
-	party_name VARCHAR NOT NULL,
-	candidate_name VARCHAR NOT NULL,
-	age INTEGER NOT NULL,
-	gender INTEGER NOT NULL,
-	vote_count INTEGER DEFAULT 0,
-	CHECK (
-		gender = 0 OR gender = 1
-	)
-);
+-- CREATE TABLE vote_counting(
+-- 	id SERIAL PRIMARY KEY,
+-- 	party_name VARCHAR NOT NULL,
+-- 	candidate_name VARCHAR NOT NULL,
+-- 	age INTEGER NOT NULL,
+-- 	gender INTEGER NOT NULL,
+-- 	vote_count INTEGER DEFAULT 0,
+-- 	CHECK (
+-- 		gender = 0 OR gender = 1
+-- 	)
+-- );
 
-INSERT INTO vote_counting(party_name, candidate_name, age, gender) VALUES('DMK','M.K.Stalin',68,0);
-INSERT INTO vote_counting(party_name, candidate_name, age, gender) VALUES('ADMK','Edappadi K. Palaniswami',66,0);
-INSERT INTO vote_counting(party_name, candidate_name, age, gender) VALUES('Naam Tamilar Katchi','Seeman',54,0);
-INSERT INTO vote_counting(party_name, candidate_name, age, gender) VALUES('Makkal Needhi Maiam','Kamal Hassan',66,0);
-INSERT INTO vote_counting(party_name, candidate_name, age, gender) VALUES('DMDK','Vijayakanth',68,0);
-INSERT INTO vote_counting(party_name, candidate_name, age, gender) VALUES('Independent Candidate','ManojKumar',21,0);
+UPDATE vote_counting SET vote_count = 340 WHERE candidate_name = 'M.K.Stalin';
+UPDATE vote_counting SET vote_count = 280 WHERE candidate_name = 'Edappadi K. Palaniswami';
+UPDATE vote_counting SET vote_count = 30 WHERE candidate_name = 'Seeman';
+UPDATE vote_counting SET vote_count = 40 WHERE candidate_name = 'Kamal Hassan';
+UPDATE vote_counting SET vote_count = 940 WHERE candidate_name = 'Vijayakanth';
+UPDATE vote_counting SET vote_count = 1040 WHERE candidate_name = 'ManojKumar';
 
